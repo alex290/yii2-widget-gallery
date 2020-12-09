@@ -27,5 +27,53 @@ Usage
 
 Once the extension is installed, simply use it in your code by  :
 
-```php
-<?= \alex290\widgetgallery\AutoloadExample::widget(); ?>```
+в конфиге web.php прописать
+
+    'modules' => [
+        'widget-gallery' => [
+            'class' => 'alex290\widgetgallery\Module',
+            'path' => 'upload', //path to files
+        ],
+    ],
+
+run migrate
+
+php yii migrate/up --migrationPath=@vendor/alex290/yii2-widget-gallery/migrations
+
+attach behaviour to your model (be sure that your model has "id" property)
+
+    public function behaviors()
+    {
+        return [
+            'gallery' => [
+                'class' => 'alex290\widgetgallery\behaviors\Behave',
+            ]
+        ];
+    }
+
+
+Вывести виджет в админке
+
+    <?= $model->getGallery() ?>
+
+
+Получить массив объектов виджетов данной модели
+
+    $model->getGalleryData();
+
+
+Удалить виджеты
+
+    $model->removeGalleryAll();
+
+    $model->removeGallery($id);
+    
+Выводить записи на странице
+    
+    <?php if ($model->getGalleryData() != null) : ?>
+        <?php foreach ($model->getGalleryData() as $key => $gallery) : ?>
+                
+
+        <?php endforeach ?>
+    <?php endif ?>
+    
