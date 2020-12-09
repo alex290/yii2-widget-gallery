@@ -87,6 +87,7 @@ class Behave extends Behavior
             $modelWidget->delete();
         }
     }
+    */
 
     protected function adminHtml($itemId, $modelName, $subdir, $url)
     {
@@ -94,5 +95,5 @@ class Behave extends Behavior
         include __DIR__ . '/../tpl/admin-html.php';
         return ob_get_clean();
     }
-    */
+
 }
