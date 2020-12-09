@@ -18,11 +18,12 @@ class Behave extends Behavior
     public function getInfo()
     {
         $itemId = $this->owner->primaryKey;
-        $modelName = $this->getModule()->getShortClass($this->owner);
-        return 'id - ' . $itemId . '. model name - ' . $modelName;
+
+        $modelName = get_class($this->owner);
+        return 'id - ' . $itemId. ' '. $modelName;
     }
 
-    public function getWidget()
+    public function getGallery()
     {
         $model = $this->owner;
         $modelNamePath = $model->className();
@@ -37,6 +38,7 @@ class Behave extends Behavior
         return $html;
     }
 
+    /*
     public function getContent()
     {
         $model = $this->owner;
@@ -92,4 +94,5 @@ class Behave extends Behavior
         include __DIR__ . '/../tpl/admin-html.php';
         return ob_get_clean();
     }
+    */
 }
