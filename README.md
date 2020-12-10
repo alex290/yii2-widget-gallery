@@ -70,6 +70,13 @@ attach behaviour to your model (be sure that your model has "id" property)
 
     $model->getGallery();
 
+В контролле для загрузки или изменения данных
+
+    if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->getNewImages()->upload($model);
+
+        ...
+    }
 
 Удалить виджеты
 
