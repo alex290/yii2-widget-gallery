@@ -79,9 +79,9 @@ attach behaviour to your model (be sure that your model has "id" property)
     
 Выводить записи на странице
     
-    <?php if ($model->getGalleryData() != null) : ?>
-        <?php foreach ($model->getGalleryData() as $key => $gallery) : ?>
-                
+    <?php if ($model->getGallery() != null) : ?>
+        <?php foreach ($model->getGallery() as $key => $gallery) : ?>
+
 
         <?php endforeach ?>
     <?php endif ?>
