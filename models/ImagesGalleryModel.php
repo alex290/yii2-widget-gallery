@@ -61,7 +61,7 @@ class ImagesGalleryModel extends \yii\db\ActiveRecord
             'modelName' => 'Model Name',
             'itemId' => 'Item ID',
             'title' => 'Title',
-            'desc' => 'Desc',
+            'desc' => 'Desciption',
             'imageFile'=> 'Images',
         ];
     }

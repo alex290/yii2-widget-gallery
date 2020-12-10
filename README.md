@@ -54,19 +54,28 @@ attach behaviour to your model (be sure that your model has "id" property)
 
 Вывести виджет в админке
 
-    <?= $model->getGallery() ?>
+    <?= $model->getGalleryAdmin($title = 'Название', $desc = 'Описание') ?>
+
+
+    $title = false
+
+Скрывает поле $title
+
+    $desc = false
+
+Скрывает поле $desc
 
 
 Получить массив объектов виджетов данной модели
 
-    $model->getGalleryData();
+    $model->getGallery();
 
 
 Удалить виджеты
 
     $model->removeGalleryAll();
 
-    $model->removeGallery($id);
+    $model->removeGalleryItem($id);
     
 Выводить записи на странице
     

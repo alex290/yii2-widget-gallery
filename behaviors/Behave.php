@@ -7,6 +7,8 @@ namespace alex290\widgetgallery\behaviors;
 // use alex290\yii2images\models\Image;
 
 use alex290\widgetgallery\models\ContentWidget;
+use alex290\widgetgallery\models\ImagesGalleryModel;
+use alex290\widgetgallery\models\NewImages;
 use alex290\widgetgallery\models\WidgetDoc;
 use Yii;
 use yii\base\Behavior;
@@ -23,7 +25,7 @@ class Behave extends Behavior
         return 'id - ' . $itemId. ' '. $modelName;
     }
 
-    public function getGallery()
+    public function getGalleryAdmin($title = 'Title', $desc = 'Description')
     {
         $model = $this->owner;
         $modelNamePath = $model->className();
@@ -34,62 +36,59 @@ class Behave extends Behavior
 
         // debug($imagesPath);
 
-        $html = $this->adminHtml($model->id, $modelName, $path, $url);
+        $html = $this->adminHtml($model->id, $modelName, $path, $url, $title, $desc);
         return $html;
     }
 
-    /*
-    public function getContent()
+    public function getNewImages()
+    {
+        $newImages = new NewImages();
+        return $newImages;
+    }
+
+    
+    public function getGallery()
     {
         $model = $this->owner;
         $modelNamePath = $model->className();
         $data = explode("\\", $modelNamePath);
         $modelName = $data[(count($data) - 1)];
 
-        $modelWidget = ContentWidget::find()->andWhere(['itemId' => $model->id])->andWhere(['modelName' => $modelName])->orderBy(['weight' => SORT_ASC])->all();
+        $modelWidget = ImagesGalleryModel::find()->andWhere(['itemId' => $model->id])->andWhere(['modelName' => $modelName])->indexBy('id')->orderBy(['weight' => SORT_ASC])->all();
 
         return $modelWidget;
     }
 
-    public function removeWidgetAll()
+    public function removeGalleryAll()
     {
         $model = $this->owner;
         $modelNamePath = $model->className();
         $data = explode("\\", $modelNamePath);
         $modelName = $data[(count($data) - 1)];
 
-        $modelWidgets = ContentWidget::find()->andWhere(['itemId' => $model->id])->andWhere(['modelName' => $modelName])->orderBy(['weight' => SORT_ASC])->all();
+        $modelWidgets = ImagesGalleryModel::find()->andWhere(['itemId' => $model->id])->andWhere(['modelName' => $modelName])->orderBy(['weight' => SORT_ASC])->all();
 
         if ($modelWidgets != null) {
             foreach ($modelWidgets as $key => $value) {
-                if ($value->type == 3) {
-                    $articleDoc = new WidgetDoc();
-                    $articleDoc->openModel($value->id);
-                    $articleDoc->deleteFile();
-                }
                 $value->removeImages();
                 $value->delete();
             }
         }
     }
 
-    public function removeWidget($id)
-    {
-        $modelWidget = ContentWidget::findOne($id);
-        if ($modelWidget != null) {
 
-            if ($modelWidget->type == 3) {
-                $articleDoc = new WidgetDoc();
-                $articleDoc->openModel($modelWidget->id);
-                $articleDoc->deleteFile();
-            }
+
+    public function removeGalleryItem($id)
+    {
+        $modelWidget = ImagesGalleryModel::findOne($id);
+        if ($modelWidget != null) {
             $modelWidget->removeImages();
             $modelWidget->delete();
         }
     }
-    */
+    
 
-    protected function adminHtml($itemId, $modelName, $subdir, $url)
+    protected function adminHtml($itemId, $modelName, $subdir, $url, $title, $desc)
     {
         ob_start();
         include __DIR__ . '/../tpl/admin-html.php';
