@@ -65,6 +65,19 @@ attach behaviour to your model (be sure that your model has "id" property)
 
 Скрывает поле $desc
 
+Добавить к модели новые изображения
+
+    $model->attachGellery([
+        '../../image.png', 
+        '../../image1.png',
+        //...
+    ]);
+
+Изменить данные в объекте галереи
+
+    $model->updateGalleryItem($id, $title = 'Заголовок', $desc = 'Описание');
+
+$title и $desc - Необязательны
 
 Получить массив объектов виджетов данной модели
 

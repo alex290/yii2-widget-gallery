@@ -40,6 +40,34 @@ class Behave extends Behavior
         return $html;
     }
 
+    public function attachGellery($images)
+    {
+        $model = $this->owner;
+        $modelNamePath = $model->className();
+        $data = explode("\\", $modelNamePath);
+        $modelName = $data[(count($data) - 1)];
+
+        $weight = ImagesGalleryModel::find()->andWhere(['modelName' => $modelName])->andWhere(['itemId' => $model->id])->count();
+
+        
+        
+        if (!empty($images)) {
+            foreach ($images as $key => $image) {
+                $newGallModel = new ImagesGalleryModel();
+                $newGallModel->modelName = $modelName;
+                $newGallModel->itemId = $model->id;
+                $newGallModel->weight = $key + $weight;
+                if ($newGallModel->save()) {
+                    $newGallModel->attachImage($image);
+                }
+
+                // debug($newGallModel);
+            }
+        }
+        // die;
+        return true;
+    }
+
     public function getNewImages()
     {
         $newImages = new NewImages();
@@ -84,6 +112,19 @@ class Behave extends Behavior
         if ($modelWidget != null) {
             $modelWidget->removeImages();
             $modelWidget->delete();
+        }
+    }
+
+    public function updateGalleryItem($id, $title = null, $desc = null)
+    {
+        $modelWidget = ImagesGalleryModel::findOne($id);
+        if ($modelWidget != null) {
+            if ($title != null) {
+                $modelWidget->title = $title;
+            }
+            if ($desc != null) {
+                $modelWidget->desc = $desc;
+            }
         }
     }
     
